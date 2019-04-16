@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Departments</title>
+</head>
+<body>
+
+<div th:if="${accessTypeFlag}==1">
+    <form th:object="${model}" th:action="@{/department/admin/save}" method="post">
+        <table>
+            <h2 th:if="${MODE}!=2">Add Department</h2>
+            <h2 th:if="${MODE}==2">Edit Department</h2>
+            <tbody>
+
+            <tr>
+                <td>Enter Department ID:</td>
+                <td><input type="text" th:field="*{deptId}"  th:value="${model.deptId}"  placeholder="Enter dept id"></td>
+            </tr>
+
+            <tr>
+                <td>Enter Department Name:</td>
+                <td><input type="text" th:field="*{deptName}" th:value="${model.deptName}" placeholder="Enter Dept Name"></td>
+            </tr>
+            <tr>
+                <td>Enter Department Code: </td>
+                <td><input type="text" th:field="*{deptCode}"  th:value="${model.deptCode}" placeholder="Enter dept code"></td>
+            </tr>
+            <tr>
+                <td>Enter Faculty: </td>
+                <td><select th:field="*{faculty.facultyId}">
+                    <option th:each="f:${fList}" th:text="${f.facultyName}" th:value="${f.facultyId}"></option>
+                </select>
+
+            </tr>
+
+            </tbody>
+
+        </table>
+
+        <input type="submit" value="Save">
+
+
+    </form>
+</div>
+<br>
+
+
+<div th:if="${MODE}==1">
+    <h2> List of Department</h2>
+
+
+    <table th:object="${listOfModel}" border="1">
+
+        <thead>
+        <tr>
+            <td><strong>Dept Id</strong></td>
+            <td><strong>Dept Name</strong></td>
+            <td><strong>Code</strong></td>
+            <td th:if="${accessTypeFlag}==1"><strong>Action</strong></td>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="f: ${listOfModel}">
+            <td th:text="${f.deptId}" th:value="${f.deptId}"></td>
+            <td th:text="${f.deptName}" th:value="${f.deptName}"></td>
+            <td th:text="${f.deptCode}" th:value="${f.deptCode}"></td>
+            <td th:if="${accessTypeFlag}==1">
+                <span><a role="button" th:href="@{'/department/admin/edit/'+ ${f.deptId}(modelId=${f.deptId})}">Edit</a></span>
+                <span><a role="button" th:href="@{'/department/admin/remove/'+ ${f.deptId}(modelId=${f.deptId})}">Remove</a></span>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+
+</body>
+</html>
+
+

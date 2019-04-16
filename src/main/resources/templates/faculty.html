@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Faculties</title>
+</head>
+<body>
+
+<div th:if="${accessTypeFlag}==1">
+    <form th:object="${model}" th:action="@{/faculty/admin/save}" method="post">
+        <table>
+            <h2 th:if="${MODE}!=2">Add Faculty</h2>
+            <h2 th:if="${MODE}==2">Edit Faculty</h2>
+            <tbody>
+
+            <tr>
+                <td>Enter Faculty ID:</td>
+                <td><input type="text" th:field="*{facultyId}"  th:value="${model.facultyId}"  placeholder="Enter faculty id"></td>
+            </tr>
+
+            <tr>
+                <td>Enter Faculty Name:</td>
+                <td><input type="text" th:field="*{facultyName}" th:value="${model.facultyName}" placeholder="Enter faculty Name"></td>
+            </tr>
+
+            <tr>
+                <td>Enter Faculty Code: </td>
+                <td><input type="text" th:field="*{facultyCode}"  th:value="${model.facultyCode}" placeholder="Enter faculty code"></td>
+            </tr>
+
+            </tbody>
+        </table>
+
+        <input type="submit" value="Save">
+
+
+    </form>
+</div>
+<br>
+
+
+<div th:if="${MODE}==1">
+    <h2> List of Faculty</h2>
+
+
+    <table th:object="${listOfModel}" border="1">
+
+        <thead>
+        <tr>
+            <td><strong>Faculty Id</strong></td>
+            <td><strong>Faculty Name</strong></td>
+            <td><strong>Code</strong></td>
+            <td th:if="${accessTypeFlag}==1"><strong>Action</strong></td>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="f: ${listOfModel}">
+            <td th:text="${f.facultyId}" th:value="${f.facultyId}"></td>
+            <td th:text="${f.facultyName}" th:value="${f.facultyName}"></td>
+            <td th:text="${f.facultyCode}" th:value="${f.facultyCode}"></td>
+            <td th:if="${accessTypeFlag}==1">
+                <span><a role="button" th:href="@{'/faculty/admin/edit/'+ ${f.facultyId}(modelId=${f.facultyId})}">Edit</a></span>
+                <span><a role="button" th:href="@{'/faculty/admin/remove/'+ ${f.facultyId}(modelId=${f.facultyId})}">Remove</a></span>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+
+
+
+
+
+
+
+</body>
+</html>
